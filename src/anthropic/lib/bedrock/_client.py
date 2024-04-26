@@ -22,6 +22,7 @@ from ..._base_client import (
 from ._stream_decoder import AWSEventStreamDecoder
 from ...resources.messages import Messages, AsyncMessages
 from ...resources.completions import Completions, AsyncCompletions
+from ...resources.beta import Beta
 
 DEFAULT_VERSION = "bedrock-2023-05-31"
 
@@ -88,6 +89,7 @@ class BaseBedrockClient(BaseClient[_HttpxClientT, _DefaultStreamT]):
 class AnthropicBedrock(BaseBedrockClient[httpx.Client, Stream[Any]], SyncAPIClient):
     messages: Messages
     completions: Completions
+    beta: Beta
 
     def __init__(
         self,
@@ -140,6 +142,7 @@ class AnthropicBedrock(BaseBedrockClient[httpx.Client, Stream[Any]], SyncAPIClie
 
         self.messages = Messages(self)
         self.completions = Completions(self)
+        self.beta = Beta(self)
 
     @override
     def _make_sse_decoder(self) -> AWSEventStreamDecoder:
